@@ -1,0 +1,31 @@
+name: Daily rebuild
+
+# Cloudflare Pages builds and hosts the site. This workflow only pings the
+# Cloudflare deploy hook once a day, so the site picks up any sheet edits
+# that weren't published with Site → Publish to website.
+#
+# Setup: add the deploy hook URL as a repository secret named
+# CLOUDFLARE_DEPLOY_HOOK (Settings → Secrets and variables → Actions).
+# Until that secret exists, this workflow does nothing.
+
+on:
+  schedule:
+    - cron: "0 13 * * *" # 13:00 UTC = 8am Dallas (CDT)
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Cloudflare build
+        env:
+          HOOK: ${{ secrets.CLOUDFLARE_DEPLOY_HOOK }}
+        run: |
+          if [ -z "$HOOK" ]; then
+            echo "CLOUDFLARE_DEPLOY_HOOK isn't set; skipping."
+            exit 0
+          fi
+          curl -fsS -X POST "$HOOK" > /dev/null
+          echo "Cloudflare build started."
