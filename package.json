@@ -1,0 +1,11 @@
+{
+  "name": "samsolomon-site",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "pull": "node scripts/build.mjs --save",
+    "preview": "node scripts/build.mjs && python3 -m http.server 8000 --directory dist"
+  },
+  "engines": { "node": ">=18" }
+}

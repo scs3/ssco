@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="{{DESCRIPTION}}">
+<meta name="color-scheme" content="light">
+<title>{{TITLE}}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400&display=swap">
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  body { margin: 0; -webkit-font-smoothing: antialiased; }
+  img { max-width: 100%; }
+  /* Layout: single column of sections, max 1440, 12-col grid for bio / services / clients,
+     availability pinned to the bottom of the viewport. Values from Figma node 109:18. */
+  :root {
+    /* Figma variables */
+    --bg-default: #eaede6;     /* bg/default */
+    --bg-none: rgba(255, 255, 255, 0); /* bg/none */
+    --content-default: #0066ff; /* content/default */
+    --border-subtle: #7caefa;  /* border/subtle */
+
+    /* Text styles: default / small */
+    --font: "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    --text-default: 400 16px/1.25 var(--font);
+    --text-small: 400 14px/20px var(--font);
+
+    --page-pad: 40px;
+    --section-gap: 80px;
+    --max-w: 1440px;
+  }
+
+  body {
+    background: var(--bg-default);
+    color: var(--content-default);
+    font: var(--text-default);
+  }
+
+  .page {
+    box-sizing: border-box;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--section-gap);
+    padding-block: var(--page-pad);
+    padding-left: max(var(--page-pad), env(safe-area-inset-left, 0px));
+    padding-right: max(var(--page-pad), env(safe-area-inset-right, 0px));
+  }
+
+  .section { width: 100%; max-width: var(--max-w); }
+
+  p { margin: 0; }
+
+  a { color: inherit; }
+  a:focus-visible { outline: 2px solid var(--border-subtle); outline-offset: 2px; }
+
+  /* Header */
+  .masthead {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .masthead h1 { margin: 0; font: var(--text-default); }
+
+  /* Heading: each word fades in, 600ms, staggered 100ms */
+  .title .word {
+    display: inline-block;
+    animation: word-fade 600ms ease-out both;
+    animation-delay: calc(var(--i) * 100ms);
+  }
+  @keyframes word-fade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .button {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    padding: 12px 16px;
+    border: 1px solid var(--border-subtle);
+    border-radius: 999px;
+    background: var(--bg-none);
+    color: var(--content-default);
+    font: var(--text-default);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background-color 150ms ease, border-color 150ms ease;
+  }
+  .button:hover { border-color: var(--content-default); }
+
+  /* Content grid */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: 24px;
+    row-gap: 40px;
+  }
+  .col {
+    min-width: 0;
+    border-top: 1px solid var(--border-subtle);
+    padding-top: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .bio { grid-column: span 6; }
+  .services, .clients { grid-column: span 3; }
+
+  .col h2 { margin: 0; font: var(--text-default); }
+
+  .bio-text p + p { margin-top: 1.25em; }
+
+  .bio-text a {
+    text-decoration: underline;
+    text-decoration-color: var(--border-subtle);
+    text-decoration-thickness: from-font;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+  }
+  .bio-text a:hover { text-decoration: underline; text-decoration-color: var(--content-default); }
+
+  .tags {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-content: flex-start;
+  }
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px 6px;
+    border: 1px solid var(--border-subtle);
+    font: var(--text-small);
+    white-space: nowrap;
+  }
+  a.tag { text-decoration: none; transition: border-color 150ms ease; }
+  a.tag:hover { border-color: var(--content-default); }
+
+  /* Availability */
+  .availability {
+    flex: 1 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 8px;
+  }
+  /* "arrow-right 1" (Figma 109:35): 40 × 16 frame, 40 × 11 arrow centred */
+  .arrow { display: flex; align-items: center; width: 40px; height: 16px; flex-shrink: 0; }
+  .arrow img { display: block; }
+  .status {
+    text-decoration: underline dotted;
+    text-decoration-thickness: from-font;
+    text-underline-offset: 4px;
+    text-decoration-skip-ink: none;
+    white-space: nowrap;
+  }
+
+  @media (max-width: 1023px) {
+    .bio { grid-column: span 12; }
+    .services, .clients { grid-column: span 6; }
+  }
+  @media (max-width: 639px) {
+    :root { --page-pad: 16px; --section-gap: 56px; }
+    .services, .clients { grid-column: span 12; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .button, a.tag { transition: none; }
+    .title .word { animation: none; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="section masthead">
+    <h1 class="title">{{HEADING}}</h1>
+    <a class="button" href="mailto:{{EMAIL}}">{{EMAIL_LABEL}}</a>
+  </header>
+
+  <main class="section grid">
+    <section class="col bio" aria-label="About">
+      <div class="bio-text">
+{{BIO}}
+      </div>
+    </section>
+
+    <section class="col services">
+      <h2>{{SERVICES_TITLE}}</h2>
+      <ul class="tags">
+{{SERVICES}}
+      </ul>
+    </section>
+
+    <section class="col clients">
+      <h2>{{CLIENTS_TITLE}}</h2>
+      <ul class="tags">
+{{CLIENTS}}
+      </ul>
+    </section>
+  </main>
+
+  <footer class="section availability">
+    <p>{{AVAILABILITY_LABEL}}</p>
+    <span class="arrow" aria-hidden="true"><img src="assets/arrow-right.svg" width="40" height="11" alt=""></span>
+    <p class="status">{{AVAILABILITY}}</p>
+  </footer>
+</div>
+</body>
+</html>
