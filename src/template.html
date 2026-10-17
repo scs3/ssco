@@ -19,21 +19,26 @@
   /* Layout: single column of sections, max 1440, 12-col grid for bio / services / clients,
      availability pinned to the bottom of the viewport. Values from Figma node 109:18. */
   :root {
-    /* Figma variables */
-    --bg-default: #f0f2ec;     /* bg/default */
+    /* Figma variables: semantic color */
+    --bg-default: #f0f2ec;          /* bg/default */
     --bg-none: rgba(255, 255, 255, 0); /* bg/none */
-    --content-default: #0066DA; /* content/default */
-    --border-subtle: #7caefa;  /* border/subtle */
-    --bg-hover: #d9e2ea;       /* bg/hover */
+    --bg-strong: #d9e2ea;           /* bg/strong */
+    --bg-knockout: #0066da;         /* bg/knockout */
+    --content-default: #0066da;     /* content/default */
+    --content-strong: #2d37ac;      /* content/strong */
+    --content-knockout: #f0f2ec;    /* content/knockout */
+    --border-default: #0066da;      /* border/default */
+    --border-subtle: #7caefa;       /* border/subtle */
 
     /* Text styles: default / small */
     --font: "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
     --text-default: 400 18px/24px var(--font);
     --text-small: 400 16px/20px var(--font);
 
-    --page-pad: 40px;
+    /* Figma variables: viewport */
+    --page-margin: 40px;            /* viewport/page/margin */
+    --content-max-width: 1440px;    /* viewport/content/max-width */
     --section-gap: 80px;
-    --max-w: 1440px;
   }
 
   body {
@@ -49,12 +54,12 @@
     flex-direction: column;
     align-items: center;
     gap: var(--section-gap);
-    padding-block: var(--page-pad);
-    padding-left: max(var(--page-pad), env(safe-area-inset-left, 0px));
-    padding-right: max(var(--page-pad), env(safe-area-inset-right, 0px));
+    padding-block: var(--page-margin);
+    padding-left: max(var(--page-margin), env(safe-area-inset-left, 0px));
+    padding-right: max(var(--page-margin), env(safe-area-inset-right, 0px));
   }
 
-  .section { width: 100%; max-width: var(--max-w); }
+  .section { width: 100%; max-width: var(--content-max-width); }
 
   p { margin: 0; }
 
@@ -93,9 +98,18 @@
     font: var(--text-default);
     text-decoration: none;
     white-space: nowrap;
-    transition: background-color 150ms ease, border-color 150ms ease;
+    transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease;
   }
-  .button:hover { border-color: var(--content-default); }
+  /* Button states from the Figma "button" component: default / hover / active */
+  .button:hover {
+    background: var(--bg-strong);
+    border-color: var(--border-default);
+  }
+  .button:active {
+    background: var(--bg-knockout);
+    border-color: var(--border-default);
+    color: var(--content-knockout);
+  }
 
   /* Content grid */
   .grid {
@@ -149,7 +163,7 @@
     white-space: nowrap;
   }
   a.tag { text-decoration: none; transition: border-color 150ms ease; }
-  a.tag:hover { border-color: var(--content-default); }
+  a.tag:hover { border-color: var(--border-default); }
 
   /* Availability */
   .availability {
@@ -164,7 +178,7 @@
   .arrow img { display: block; transform: translateY(-2px); }
   .status {
     /* "dynamic" style: thick bg/hover underline that reads as a highlight */
-    text-decoration: underline solid var(--bg-hover);
+    text-decoration: underline solid var(--bg-strong);
     line-height: 1.25; /* "dynamic" style still uses 125% in Figma */
     text-decoration-thickness: 22px;
     text-underline-offset: -16px;
@@ -177,7 +191,7 @@
     .services, .clients { grid-column: span 6; }
   }
   @media (max-width: 639px) {
-    :root { --page-pad: 16px; --section-gap: 56px; }
+    :root { --page-margin: 16px; --section-gap: 56px; }
     .services, .clients { grid-column: span 12; }
   }
   @media (prefers-reduced-motion: reduce) {
