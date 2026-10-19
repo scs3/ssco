@@ -30,6 +30,7 @@
     --content-knockout: #f0f2ec;    /* content/knockout */
     --border-default: #0066da;      /* border/default */
     --border-subtle: #7caefa;       /* border/subtle */
+    --border-strong: #0052ae;       /* border/strong */
 
     /* Text styles: default / small */
     --font: "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -108,7 +109,10 @@
     border-color: var(--border-default);
     color: var(--content-knockout);
   }
-  .button:active { background: var(--bg-knockout-strong); }
+  .button:active {
+    background: var(--bg-knockout-strong);
+    border-color: var(--border-strong);
+  }
 
   /* Content grid */
   .grid {
